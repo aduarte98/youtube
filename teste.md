@@ -170,7 +170,7 @@ Quando você for olhar o seu Github, verá que existe uma mensagem parecida com 
 
 Isso significa que a branch do seu repositório está 1 commit "na frente" da branch original
 
-O que você deve perceber agora é esse botão que aparece em seguida:
+O que você deve perceber agora é esse botão que aparece em seguida::
 
 <img src="https://media.discordapp.net/attachments/831974152667398214/838991711249235998/unknown.png">
 
@@ -195,4 +195,4 @@ Recomendo sempre vocês darem uma olhada na [documentação do Git](https://git-
 Até semana que vem, um beijo!
 
 
-Deu certo!!!
+Deu certo!!!!
