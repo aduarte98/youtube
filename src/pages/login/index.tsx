@@ -1,8 +1,8 @@
 import { useContext, useState } from "react";
-import { UserContext } from "../../contexts/userContext";
+import { UsersContext } from "../../contexts/userContext";
 
 function Login() {
-    const userContext = useContext(UserContext);
+    const userContext = useContext(UsersContext);
 
     if (!userContext) {
         throw new Error("UserContext must be used within a UserProvider");

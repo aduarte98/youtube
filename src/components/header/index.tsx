@@ -17,10 +17,19 @@ import VideoIcon from "../../assets/video.png";
 import SinoIcon from "../../assets/sino.png";
 import { useContext } from "react";
 import { UserContext } from "../../contexts/useContext";
+import { UsersContext } from "../../contexts/userContext";
 import { useNavigate } from "react-router-dom";
 
 
 function Header(){
+
+    const context = useContext(UsersContext)
+
+    if (!context) {
+        throw new Error("UsersContext não foi fornecido.");
+    }
+
+    const { login, logOut } = context
 
     const navigate = useNavigate();
 
@@ -63,9 +72,18 @@ function Header(){
                 <ButtonContainer margin='0 0 0 10px'>
                     <ButtonIcon alt="" src={SinoIcon}/>
                 </ButtonContainer>
-                <ButtonContainer margin='0 0 0 10px' onClick={() => navigate('/login')}>
+
+                {login ?
+                <>
+                <ButtonContainer margin='0 0 0 10px'>
                     AS
                 </ButtonContainer>
+                <span onClick={() => logOut()}>Sair</span>
+                </>
+                : 
+                <button onClick={() => navigate('/login')}>Fazer Login</button>
+                }
+                
             </HeaderButton>
         </Container>
     )

@@ -8,30 +8,32 @@ interface UserContextType {
     login: boolean;
     user: any; // Substitua 'any' pelo tipo real do usuário, se disponível
     handleLogin: (email: string, password: string) => void;
+    logOut: any;
 }
 
 // 2. Crie o contexto usando a interface definida
-export const UserContext = createContext<UserContextType | undefined>(undefined);
+export const UsersContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserStorage = ({ children }: { children: React.ReactNode }) => {
     const [login, setLogin] = useState(false);
     const [user, setUser] = useState({});
+    const [token, setToken] = useState(localStorage.getItem('token') as string);
 
     const handleLogin = (email: string, password: string) => {
         api.post('/user/sign-in', { email, password }).then(({ data }) => {
             setLogin(true);
             localStorage.setItem('token', data.token);
-            getUser();
+            setToken(data.token);
+            getUser(data.token);
         }).catch((error) => {
             console.log('Não foi possível fazer o login', error);
         });
     };
 
-    const getUser = () => {
-        const token = localStorage.getItem('token');
-        api.get('/user/get-user', {
+    const getUser = (token:string) => {
+        api.get('/user/get-user',  {
             headers: {
-                Authorization: `Bearer ${token}`
+                Authorization: token
             }
         }).then(({ data }) => {
             setUser(data.user);
@@ -42,12 +44,18 @@ export const UserStorage = ({ children }: { children: React.ReactNode }) => {
     };
 
     useEffect(() => {
-        getUser();
-    }, []);
+        getUser(token);
+    }, [token]);
+
+    const logOut = () => {
+        localStorage.removeItem('token');
+        setLogin(false);
+        setUser([]);
+    }
 
     return (
-        <UserContext.Provider value={{ login, user, handleLogin }}>
+        <UsersContext.Provider value={{ login, user, handleLogin, logOut }}>
             {children}
-        </UserContext.Provider>
+        </UsersContext.Provider>
     );
 };
