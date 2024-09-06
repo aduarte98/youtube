@@ -29,7 +29,7 @@ function Header(){
         throw new Error("UsersContext não foi fornecido.");
     }
 
-    const { login, logOut } = context
+    const { login, logOut, user } = context
 
     const navigate = useNavigate();
 
@@ -76,7 +76,7 @@ function Header(){
                 {login ?
                 <>
                 <ButtonContainer margin='0 0 0 10px'>
-                    AS
+                    {user.nome.charAt(0)}
                 </ButtonContainer>
                 <span onClick={() => logOut()}>Sair</span>
                 </>
